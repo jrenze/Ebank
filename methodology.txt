@@ -1,0 +1,66 @@
+3.2 Technical Architecture (The Build)
+The development of the "Synapse-K : Developing a Multi-Utility Incentive Framework via an Automated Plastic-to-Credit Exchange System Recycling Kiosk is divided into three functional layers: The Input Layer, The Processing Layer, and The Output Layer. These layers work together to create a seamless bottle-to-credit conversion system that rewards environmentally responsible behavior.
+
+
+
+
+
+The Input Layer (The Senses):
+The machine utilizes infrared (IR Break Beam Sensor) sensors and object verification mechanisms (HX711 Weight Senor w/ 1kg LoadCell) to detect the insertion of items into the input chamber. These sensors determine whether the object inserted is a plastic bottle or another type of object (by mass). If the object is verified as a valid plastic bottle bottle, the system awards 1 Z.U.B.O. (Zero-waste Utility Balance Output) credit to the user. If the object is identified as a non-plastic bottle item, or a bottle containing liquid too much liquid, the machine still accepts the object however it displays a notification on the LCD informing the user that the item is not eligible for ZUBO credits.
+
+
+
+
+
+The Processing Layer (The Brain):
+An ESP32 Development Module microcontroller serves as the central processing unit of the system. It manages the internal logic of the kiosk, including bottle verification, credit allocation, and account management. The system allows users to select between Local Mode or Account Mode before inserting bottles. In Local Mode, ZUBO credits are temporarily stored for the current session, while in Account Mode, users connect to the machine’s local Wi-Fi network and log in through a captive portal website where their credits are stored in a digital ledger (Locally).
+
+
+
+
+
+The Output Layer (The Reward):
+Once credits are earned, users may redeem their accumulated ZUBO credits for available services. The output system includes relay modules for power distribution, USB charging ports, and a captive portal interface ( Local Website From ESP32 Wifi via/ IP Address) for Wi-Fi access or other digital services. The LCD display provides real-time feedback, including ZUBO balance updates.
+
+3.3 Data Collection Procedure
+To evaluate the effectiveness and usability of the ZUBO recycling kiosk, the research team will implement the following steps:
+
+
+Phase I: System Preparation.
+The kiosk will undergo calibration and testing to ensure proper sensor detection and credit allocation. Trial insertions using plastic bottles and non-bottle objects will be performed to confirm accurate classification and system response.
+
+
+Phase II: Prototype Deployment.
+The ZUBO recycling kiosk will be installed in a selected distance with the high-trafiic area within the campus where students frequently consume bottled beverages. The prototype will operate for a two-week testing period to observe real-world usage patterns.
+
+
+Phase III: System Logging.
+The ESP32 system will automatically record operational data including the number of inserted bottles, the number of invalid objects detected, ZUBO credits generated, and the most frequently used system services. These logs will serve as the primary dataset for evaluating the system’s effectiveness.
+
+
+3.4 Participants and Sampling
+The study will employ Purposive Sampling, focusing on students and faculty members who regularly consume bottled drinks within the campus environment. These participants represent the primary contributors to plastic bottle waste and are therefore the most relevant users of the recycling system.
+
+
+3.5 Instrumentation and Validation
+To ensure the reliability and accuracy of the kiosk’s data collection, the following validation procedures will be implemented:
+
+Sensor Calibration:
+Multiple test trials will be conducted using various bottle sizes and materials to verify the accuracy of the detection system. The sensors will be adjusted to achieve at least 95% detection accuracy for valid plastic bottles.
+
+Ledger Verification:
+Periodic manual inspections will be conducted to compare the number of physical bottles collected in the storage container with the number of ZUBO credits recorded in the digital ledger. This ensures that the system’s software accurately reflects the physical recycling activity.
+
+User Feedback Survey:
+A short feedback form will be made available through the kiosk’s web portal to collect user opinions regarding system usability, functionality, and overall experience.
+
+
+3.6 Data Analysis Plan
+The collected data will be analyzed using Quantitative Frequency Distribution and Comparative Analysis methods.
+
+Quantitative Frequency Distribution: The research team will analyze the total number of bottles collected and the frequency of valid versus invalid object insertions.
+
+Comparative Analysis: The team will examine which services are most frequently selected by users when redeeming their ZUBO credits.
+
+Through this analysis, the study aims to determine whether a credit-based incentive system effectively encourages recycling behavior among students and promotes environmental awareness within the campus community.
+12:37 PM

@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1774064731 source:c:\users\acer\desktop\c++\ebank\main.cpp
+	<iostream>
+	<cstdlib>
+	<conio.h>
+	<string>
+	<fstream>
+	<thread>
+	<chrono>
+	<filesystem>
+	<ctime>
+	<iomanip>
+
