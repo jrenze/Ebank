@@ -35,31 +35,7 @@ bool signup_exit = false;
 bool fKill = false;
 //global variable
 
-void showLoading(){
-    int width = 30;
-    int speed = 40;
 
-    cout << "\n ┌";
-    for(int i = 0; i < width; i++) cout << "─";
-    cout << "┐\n";
-
-    cout << " │";
-
-    for(int i = 0; i < width; i++) cout << "▒";
-
-    cout << "│\r │";
-
-    for(int i = 0; i < width; i++){
-        cout << green << "■" << r << flush;
-        this_thread::sleep_for(chrono::milliseconds(speed));
-    }
-
-    cout << "│\n";
-
-    cout << " └";
-    for(int i = 0; i < width; i++) cout << "─";
-    cout << "┘\n";
-}
 
 void loading_S(string color, string color2,int time, int time2){
 
@@ -1528,7 +1504,7 @@ int main()
 {
     cout << r;
     system("chcp 65001 > nul");
-    showLoading();
+    
     char choice;
     do{
     delAcc_Exit = false;
