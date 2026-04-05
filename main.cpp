@@ -8,6 +8,7 @@
 #include <filesystem>
 #include <ctime>
 #include <iomanip>
+#include <windows.h>
 
 #define grey "\033[90m"
 #define red "\033[31m"
@@ -35,6 +36,22 @@ bool signup_exit = false;
 bool fKill = false;
 //global variable
 
+void loading_M() {
+    system("cls");
+    system("chcp 65001 > nul");
+    cout << "\033[?25l";
+    cout << ebank << endl;
+    cout << " ══════════════════════════════════════════════\n ";
+    system("chcp 437 > nul");
+
+    for(int i = 0; i < 46; i++) {
+        cout << char(219);
+        Sleep(10);
+    }
+    cout << "\033[?25h";
+    system("chcp 65001 > nul");
+
+}
 
 
 void loading_S(string color, string color2,int time, int time2){
@@ -55,6 +72,24 @@ void loading_S(string color, string color2,int time, int time2){
 
     cout << "\r ";
     cout << "\033[?25h";
+}
+
+void ExitQ(){
+    system("cls");
+    cout << "\033[?25l";
+    cout << ebank << endl;
+    cout << " ══════════════════════════════════════════════\n ";
+    cout << " Do you want to continue? (y/n):";
+    char choice;
+    choice = getch();
+
+
+    if(choice == 'Y' || choice == 'y'){
+        fKill = false;
+    }else{
+        fKill = true;
+    }
+
 }
 
 
@@ -85,7 +120,7 @@ void usrCheck(string usr){
 
     if(f4 == true){
         if(f3 == true){cout << endl;}
-        cout << red << "    └Username can only contain letters and numbers. ";
+        cout << red << "    └Username must contain only letters and numbers. ";
     }
 
     string file_usr;
@@ -132,7 +167,7 @@ void emailCheck(string email){
         fKill = false;
     }else{
         f1 = true;
-        cout << red << "    └Invalid Email. ";
+        cout << red << "    └Invalid email. ";
     }
 
     //check if alreaady exist Email
@@ -158,7 +193,7 @@ void numCheck(string number){
     if(number.length() >= 11 && number.length() <= 13 ){
         fKill = false;
     }else {
-        cout << red << "    └Invalid Number. ";
+        cout << red << "    └Invalid number. ";
         f1 = true;
     }
     for(int i = 0; i < number.length(); i++){
@@ -166,7 +201,7 @@ void numCheck(string number){
             f2 = true;
         }
     }
-    if(f2 == true) { cout << red << "    └Invalid Number. "; }
+    if(f2 == true) { cout << red << "    └Invalid number. "; }
 
     //check if number already exist
     string file_usr, file_mail, file_num;
@@ -203,7 +238,7 @@ void passCheck(string pass){
     }
     if( f2 == true){
             if(f1 == true){cout << endl;}
-            cout << red << "    └Spaces are not allowed. ";
+            cout << red << "    └Password cannot contain spaces. ";
         }
     if(f1 == true || f2 == true){
         fKill = true;
@@ -307,7 +342,7 @@ void moneyValidator(string depMoney){
         if (allDigits && !depMoney.empty()) {
                 break;
         }else{
-            cout << grey << "    └Invalid input! Only whole numbers without spaces, commas, or dots are allowed. ";
+            cout << red << "    └Invalid amount format. Enter numbers only (no spaces or symbols). ";
             exitF = true;
             system("pause");
             cout << r;
@@ -317,7 +352,9 @@ void moneyValidator(string depMoney){
     return;
 }
 
-void deposite(string usrName){
+void deposit(string usrName){
+loading_M();
+ExitQ(); if(fKill == true){return;}
     string depVal, depVal2;
 
     cout << r;
@@ -329,7 +366,7 @@ void deposite(string usrName){
         cout << " " << grey << "@" << r << usrName << endl;
         cout << " "<< result << endl << endl;
         cout << " ══════════════════════════════════════════════\n" << endl;
-        cout << " Deposite" << endl;
+        cout << " Deposit" << endl;
         cout << " └Enter amount: " << grey << "₱" << r;
 
         exitF = false;
@@ -344,7 +381,7 @@ void deposite(string usrName){
         cout << " " << grey << "@" << r << usrName << endl;
         cout << " "<< result << endl << endl;
         cout << " ══════════════════════════════════════════════\n" << endl;
-        cout << " Deposite" << endl;
+        cout << " Deposit" << endl;
         cout << " └Enter amount: " << grey << "₱" << r << depVal << ".";
 
         exitF = false;
@@ -358,16 +395,16 @@ void deposite(string usrName){
             int depVal_int = stoi(depVal);
             int depVal2_int = stoi(depVal2);
             balSys(depVal_int, depVal2_int, usrName);
-            loading_S(grey, green, 20, 10);
-            cout << grey << "  └Deposit Successful." << r << endl;
+            loading_S(grey, green, 15, 10);
+            cout << green << "  └Deposit successful." << r << endl;
         } catch (out_of_range&) {
-            loading_S(grey, red, 20, 10);
-            cout << red << "  └Amount exceeds maximum allowed." << endl;
+            loading_S(grey, red, 15, 10);
+            cout << red << "  └Transaction exceeds the allowed limit." << endl;
             system("pause");
             cout << r;
             return;
         } catch (invalid_argument&) {
-            loading_S(grey, red, 20, 10);
+            loading_S(grey, red, 15, 10);
             cout << red << "  └Invalid input." << endl;
             system("pause");
             cout << r;
@@ -376,7 +413,7 @@ void deposite(string usrName){
 
         string DepSend = "₱" + depVal + "." + depVal2;
 
-        BalHistory("Deposite: +", DepSend, usrName);
+        BalHistory("Deposit: +", DepSend, usrName);
 
         cout << "\033[?25l";
         system("cls");
@@ -389,8 +426,8 @@ void deposite(string usrName){
         cout << " ══════════════════════════════════════════════\n" << endl;
         cout << " Deposite" << endl;
         cout << " └Enter amount: " << grey << "₱" << r << depVal << "." << depVal2 << endl;
-        cout << grey << "  └Deposit Successful." << r << endl;
-        loading_S(grey, green, 20, 10);
+        cout << green << "  └Deposit successful." << r << endl;
+        loading_S(grey, green, 15, 10);
         cout << r;
 
         system("cls");
@@ -400,15 +437,17 @@ void deposite(string usrName){
         cout << " " << grey << "@" << r << usrName << endl;
         cout << " "<< result << endl << endl;
         cout << " ══════════════════════════════════════════════\n" << endl;
-        cout << " Deposite" << endl;
+        cout << " Deposit" << endl;
         cout << " └Enter amount: " << grey << "₱" << r << depVal << "." << depVal2 << endl;
-        cout << grey << "  └Deposit Successful. ";
+        cout << green << "  └Deposit successful. ";
         system("pause");
         cout << r;
     return;
 }
 
 void withdraw(string usrName){
+loading_M();
+ExitQ(); if(fKill == true){return;}
     string withVal, withVal2;
 
     cout << r;
@@ -461,7 +500,7 @@ void withdraw(string usrName){
             long long totalW = withVal_int * 100 + withVal2_int;
 
             if(totalW > totalBal){
-                loading_S(grey, red, 20, 10);
+                loading_S(grey, red, 15, 10);
                 cout << red << "  └Insufficient balance. ";
                 system("pause");
                 cout << r;
@@ -472,11 +511,11 @@ void withdraw(string usrName){
 
         balSys(-withVal_int, -withVal2_int, usrName);
 
-        loading_S(grey, green, 20, 10);
-        cout << grey << "  └Withdraw Successful." << r << endl;
+        loading_S(grey, green, 15, 10);
+        cout << green << "  └Withdrawal successful." << r << endl;
 
     }catch(...){
-        loading_S(grey, red, 20, 10);
+        loading_S(grey, red, 15, 10);
         cout << red << "  └Invalid input." << endl;
         system("pause");
         cout << r;
@@ -497,8 +536,8 @@ void withdraw(string usrName){
         cout << " ══════════════════════════════════════════════\n" << endl;
         cout << " Deposite" << endl;
         cout << " └Enter amount: " << grey << "₱" << r << withVal << "." << withVal2 << endl;
-        cout << grey << "  └Withdraw Successful." << r << endl;
-        loading_S(grey, green, 20, 10);
+        cout << green << "  └Withdrawal successful. " << r << endl;
+        loading_S(grey, green, 15, 10);
         cout << r;
 
         system("cls");
@@ -510,7 +549,7 @@ void withdraw(string usrName){
         cout << " ══════════════════════════════════════════════\n" << endl;
         cout << " Deposite" << endl;
         cout << " └Enter amount: " << grey << "₱" << r << withVal << "." << withVal2 << endl;
-        cout << grey << "  └Withdraw Successful. ";
+        cout << green << "  └Withdrawal successful. ";
         system("pause");
         cout << r;
 
@@ -518,6 +557,13 @@ void withdraw(string usrName){
 }
 
 void rcvMoney(string Rusr, string Susr, long long pesos, long long centavos){
+    ofstream user_dataFile_Hist("userBalance&History/" + Rusr + "_Data" + "/histData.txt", ios::app);
+    time_t now = time(0);
+    tm* time = localtime(&now);
+
+    user_dataFile_Hist << "Recieved from " << "@" << Susr << " | " << " +₱" << pesos << "." << centavos << " | " << put_time(time, "%Y-%m-%d %I:%M %p" ) << endl;
+    user_dataFile_Hist.close();
+
     fstream Ruser_dataFile_Bal("userBalance&History/" + Rusr + "_Data/balData.txt");
     ofstream RtempData("userBalance&History/" + Rusr + "_Data/temp.txt");
 
@@ -569,19 +615,11 @@ void rcvMoney(string Rusr, string Susr, long long pesos, long long centavos){
     rename(("userBalance&History/" + Rusr+ "_Data/temp.txt").c_str(),
            ("userBalance&History/" + Rusr + "_Data/balData.txt").c_str());
 
-    string Pstr = to_string(pesos);
-    string Cstr = to_string(centavos);
-
-    ofstream user_dataFile_Hist("userBalance&History/" + Rusr + "_Data" + "/histData.txt", ios::app);
-    time_t now = time(0);
-    tm* time = localtime(&now);
-
-    user_dataFile_Hist << "Recieved: " << "@" << Susr << " | " << " +₱" << Pstr << "." << Cstr << " | " << put_time(time, "%Y-%m-%d %I:%M %p" ) << endl;
-    user_dataFile_Hist.close();
-
 }
 
 void sendMoney(string usrName){
+loading_M();
+ExitQ(); if(fKill == true){return;}
     string sendVal, sendVal2;
 
     cout << r;
@@ -600,7 +638,7 @@ void sendMoney(string usrName){
         cout << " " << grey << "@" << r << usrName << endl;
         cout << " " << result << endl << endl;
         cout << " ══════════════════════════════════════════════\n" << endl;
-        cout << " Send Money to" << grey << " @" << r;
+        cout << " Send to" << grey << " @" << r;
 
         string usr;
         getline(cin, usr);
@@ -619,10 +657,10 @@ void sendMoney(string usrName){
 
 
 
-        cout << grey << " └" << r << "Searching for user" << r << endl;
+        cout << grey << " └" << r << "Searching for user..." << r << endl;
 
         if(usr == usrName){
-            loading_S(grey, red, 20, 10);
+            loading_S(grey, red, 15, 10);
             cout << " └Cannot transfer to the same account. ";
             system("pause");
             cout << r;
@@ -630,15 +668,15 @@ void sendMoney(string usrName){
         }
 
         if(Fstop == true){
-            loading_S(grey, green, 20, 10);
+            loading_S(grey, green, 15, 10);
             cout << green;
-            cout << " └Found. " << endl;
-            loading_S(grey, green, 20, 10);
+            cout << " └User found. " << endl;
+            loading_S(grey, green, 15, 10);
             cout << r;
             break;
         }else{
-            loading_S(grey, red, 20, 10);
-            cout << " └User not found. ";
+            loading_S(grey, red, 15, 10);
+            cout << " └Recipient not found. ";
             system("pause");
             cout << r;
             return;
@@ -696,7 +734,7 @@ void sendMoney(string usrName){
             long long totalW = sendVal_int * 100 + sendVal2_int;
 
             if(totalW > totalBal){
-                loading_S(grey, red, 20, 10);
+                loading_S(grey, red, 15, 10);
                 cout << red << "  └Insufficient balance. ";
                 system("pause");
                 cout << r;
@@ -707,11 +745,11 @@ void sendMoney(string usrName){
 
         balSys(-sendVal_int, -sendVal2_int, usrName);
 
-        loading_S(grey, green, 20, 10);
-        cout << grey << "  └Send Money Successful." << r << endl;
+        loading_S(grey, green, 15, 10);
+        cout << green << "  └Money sent successfully." << r << endl;
 
     }catch(...){
-        loading_S(grey, red, 20, 10);
+        loading_S(grey, red, 15, 10);
         cout << red << "  └Invalid input." << endl;
         system("pause");
         cout << r;
@@ -733,7 +771,7 @@ void sendMoney(string usrName){
         cout << " ══════════════════════════════════════════════\n" << endl;
         cout << " Send Money" << endl;
         cout << " └Enter amount: " << grey << "₱" << r << sendVal << "." << sendVal2 << endl;
-        cout << grey << "  └Send Money Successful." << r << endl;
+        cout << green << "  └Money sent successfully." << r << endl;
         loading_S(grey, green, 20, 10);
         cout << r;
 
@@ -746,12 +784,13 @@ void sendMoney(string usrName){
         cout << " ══════════════════════════════════════════════\n" << endl;
         cout << " Send" << endl;
         cout << " └Enter amount: " << grey << "₱" << r << sendVal << "." << sendVal2 << endl;
-        cout << grey << "  └Send Money Successful. ";
+        cout << green << "  └Money sent successfully. ";
         system("pause");
         cout << r;
 }
 
 void showHistory(string usr){
+loading_M();
     system("cls");
 
     string path = "userBalance&History/" + usr + "_Data/histData.txt";
@@ -845,7 +884,7 @@ void delAcc(string usr, string mail, string num, string pass){
         cout << " ══════════════════════════════════════════════" << endl << endl;
         cout << " 1. Update account info" << endl;
         cout << " 2. Delete account" << endl;
-        cout << grey << "  └Do you want to delete your account? Y/N" << r << endl;
+        cout << grey << "  └Do you want to delete your account? (y/n):" << r << endl;
         cout << " 3. Exit" << endl;
 
         char choice;
@@ -859,6 +898,7 @@ void delAcc(string usr, string mail, string num, string pass){
     }while(FdelAcc == true);
 
     do {
+        loading_M();
         system("cls");
         cout << r;
         cout << ebank << endl;
@@ -898,17 +938,17 @@ void delAcc(string usr, string mail, string num, string pass){
 
         cout << grey << "\r\r │" << "                                                       \n";
         cout << r << " Proccessing account deletion..." << endl;
-        loading_S(grey, green, 20, 10);
+        loading_S(grey, green, 15, 10);
         cout << grey << " └" << r << "Withdrawing: " << grey << result << endl;
-        loading_S(grey, green, 20, 10);
+        loading_S(grey, green, 15, 10);
         cout << grey << "  ├" << green << "Successful. " << endl;
-        loading_S(grey, green, 20, 10);
+        loading_S(grey, green, 15, 10);
         cout << grey << "  └" << r << "Deleting account from database " << endl;
-        loading_S(grey, green, 20, 10);
+        loading_S(grey, green, 15, 10);
         cout << grey << "   └" << green << "Successful. " << endl;
-        loading_S(grey, green, 25, 10);
+        loading_S(grey, green, 15, 10);
         cout << grey << "    ├" << red << "Account deleted. " << endl;
-        loading_S(grey, green, 25, 10);
+        loading_S(grey, green, 15, 10);
         cout << grey << "    └" << r << "Thank you for using " << green << "Ebank." << r;
         cout << "\033[?25l";
         this_thread::sleep_for(chrono::seconds(2));
@@ -934,6 +974,7 @@ void delAcc(string usr, string mail, string num, string pass){
         delAcc_Exit = true;
         char e;
         e = getch();
+        loading_M();
         return;
 
 
@@ -942,6 +983,7 @@ void delAcc(string usr, string mail, string num, string pass){
 }
 
 void accUpdate(string usr){
+loading_M();
     do {
         cout << "\033[?25l";
         system("cls");
@@ -959,7 +1001,7 @@ void accUpdate(string usr){
 
         cout << grey << " @" << r << usr << endl;
 
-        cout << grey << " └Update Email? Y/N" << r;
+        cout << grey << " └Update Email? (y/n):" << r;
         choice = getch();
         if(choice == 'Y' || choice == 'y'){
             cout << "\033[?25h";
@@ -987,7 +1029,7 @@ void accUpdate(string usr){
 
         if(f2 == true){cout << endl;};
         cout << "\033[?25l";
-        cout << grey << " └Update Password? Y/N" << r;
+        cout << grey << " └Update Password? (y/n):" << r;
         choice = getch();
         if(choice == 'Y' || choice == 'y'){
             cout << "\033[?25h";
@@ -1012,7 +1054,7 @@ void accUpdate(string usr){
             cout << endl;
         }
         cout << grey << "  │" << endl;
-        cout  << " Update account account? Y/N";
+        cout  << " Update account account? (y/n):";
         choice = getch();
 
         if(choice != 'Y' && choice != 'y'){
@@ -1153,11 +1195,12 @@ void accInfo(string usr){
     }
 
     if(found == false){
-        cout << red << "  └Wrong password. ";
+        cout << red << "  └Incorrect password. ";
         system("pause");
         cout << r;
         return;
     }
+    loading_M();
     do {
         if(delAcc_Exit == true){return;}
         cout << "\033[?25l";
@@ -1193,7 +1236,7 @@ void accInfo(string usr){
                 return; break;
 
             default:
-                cout << grey << " └Invalid Input. ";
+                cout << red << " └Invalid input. ";
                 system("pause");
                 cout <<r;
             }
@@ -1202,6 +1245,7 @@ void accInfo(string usr){
 
 
 void mainInterfaceAcc(string usrName){
+loading_M();
     char choice;
     do{
     if(delAcc_Exit == true){return;}
@@ -1217,7 +1261,7 @@ void mainInterfaceAcc(string usrName){
 
         cout << " ╔════════════════════════════════════════════╗" << endl;
         cout << " ║                                            ║" << endl;
-        cout << " ║  1. Deposite                               ║" << endl;
+        cout << " ║  1. Deposit                                ║" << endl;
         cout << " ║  2. Withdraw                               ║" << endl;
         cout << " ║  3. Send                                   ║" << endl;
         cout << " ║  4. History                                ║" << endl;
@@ -1230,7 +1274,7 @@ void mainInterfaceAcc(string usrName){
         cout << "\033[?25h";
         switch(choice){
             case '1':
-                deposite(usrName); break;
+                deposit(usrName); break;
             case '2':
                 withdraw(usrName); break;
             case '3':
@@ -1246,7 +1290,7 @@ void mainInterfaceAcc(string usrName){
                 break;
 
             default:
-                cout << grey << " └Invalid Input. ";
+                cout << red << " └Invalid Input. ";
                 system("pause");
                 break;
         }
@@ -1259,6 +1303,9 @@ void mainInterfaceAcc(string usrName){
 
 
 void signup(){
+loading_M();
+ExitQ(); if(fKill == true){return;}
+cout << "\033[?25h";
     string user_usr, email_usr, password_usr, number_usr;
 
     system("cls");
@@ -1296,14 +1343,8 @@ void signup(){
 
                 userBal_Hist(user_usr);
 
-                loading_S(grey, green, 30, 10);
-                cout << grey << "   └Account created successfully. ";
-                system("pause");
-                cout << r;
-                return;
-            }else {
-                loading_S(grey, red, 30, 10);
-                cout << red << "    └Failed to create account. ";
+                loading_S(grey, green, 20, 10);
+                cout << green << "   └Account successfully created. ";
                 system("pause");
                 cout << r;
                 return;
@@ -1350,6 +1391,7 @@ void log_usrCheck(string log_usr){
 
 
 void accRec(){
+loading_M();
     system("cls");
     cout << ebank << endl;
     cout << " ══════════════════════════════════════════════\n" << endl;
@@ -1379,8 +1421,8 @@ void accRec(){
         bool Rfound = false;
 
         if(found == true){
-            loading_S(grey, green, 40, 10);
-            cout << grey << "   └Account found." << endl;
+            loading_S(grey, green, 20, 10);
+            cout << green << "   └Account found." << endl;
             cout << grey << "     ├@" << temp_usr << endl;
 
             ofstream tempUpdate("usr_tempData.txt");
@@ -1407,16 +1449,16 @@ void accRec(){
             rename("usr_tempData.txt","userData.txt");
 
             if(Rfound == true){
-                loading_S(grey, green, 30, 10);
-                cout << grey << "     Password replaced succesfully. ";
+                loading_S(grey, green, 20, 10);
+                cout << green << "     └Password replaced succesfully. ";
             }else{
-                loading_S(grey, red, 30, 10);
-                cout << red << "   └Failed to replace the password. ";
+                loading_S(grey, red, 20, 10);
+                cout << red << "     └Failed to replace the password. ";
             }
 
 
         }else {
-            loading_S(grey, red, 40, 10);
+            loading_S(grey, red, 20, 10);
             cout << red << "   └No account matches the provided credentials. ";
         }
             return;
@@ -1425,6 +1467,9 @@ void accRec(){
 //login section
 
 void login(){
+loading_M();
+ExitQ(); if(fKill == true){return;}
+cout << "\033[?25h";
 system("cls");
     fKill = false;
     string user_usr, password_usr;
@@ -1459,7 +1504,7 @@ system("cls");
             if(found == true){
               loading_S(grey, green, 30, 10);
                 cout << "\033[?25l";
-                cout << grey << "   └Login successful." << endl << "    ";
+                cout << green << "   └Login successful." << endl << "    " << grey;
                 this_thread::sleep_for(chrono::milliseconds(500));
                 cout << ".";
                 this_thread::sleep_for(chrono::milliseconds(500));
@@ -1479,7 +1524,7 @@ system("cls");
                 loading_S(grey, red, 30, 10);
                 char choice;
                 cout << red << "   └Wrong username or password." << r << endl;
-                cout << grey << "     └Forget password? Y/N." << r;
+                cout << grey << "     └Forget password? (y/n):" << r;
                 choice = getch();
                 if(choice == 'Y' || choice == 'y'){
                     accRec();
@@ -1487,7 +1532,7 @@ system("cls");
 
                     return;
                 }else{
-                    cout << grey << " └Invalid input. ";
+                    cout << red << " └Invalid input. ";
                 }
             }
 
@@ -1503,8 +1548,7 @@ system("cls");
 int main()
 {
     cout << r;
-    system("chcp 65001 > nul");
-    
+    loading_M();
     char choice;
     do{
     delAcc_Exit = false;
@@ -1521,15 +1565,13 @@ int main()
         cout << " ";
         choice = getch();
 
-        cout << "\033[?25h";
         switch(choice){
             case '1':
                 login(); break;
             case '2':
                 signup(); break;
             default:
-                cout << "\033[?25l";
-                cout << grey << " └Invalid Input. ";
+                cout << red << " └Invalid Input. ";
                 system("pause");
                 cout <<r;
                 break;
